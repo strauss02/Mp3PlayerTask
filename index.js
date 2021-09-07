@@ -48,7 +48,7 @@ const player = {
     { id: 5, name: 'Israeli', songs: [4, 5] },
   ],
   playSong(song) {
-    console.log(`Playing ${song.title} from ${song.album} by ${song.artist} | ${song.duration}."`)
+    console.log(`Playing ${song.title} from ${song.album} by ${song.artist} | ${convertSecondsToMinutes(song.duration)}."`)
   },
 }
 
@@ -94,6 +94,7 @@ function searchByDuration(duration) {
 
 //UTILLITY FUNCTIONS
 
+//convert from second to mm:ss format. e.g. 160 to 02:40
 function convertSecondsToMinutes(time) {
   let minutes = Math.floor(time/60)
   let seconds = time - minutes*60
@@ -113,7 +114,7 @@ function convertSecondsToMinutes(time) {
 
 console.log(player.playSong(player.songs[1]))
 console.log(player.songs[1])
-console.log(convertSecondsToMinutes(180))
+console.log(convertSecondsToMinutes(99))
 
 module.exports = {
   player,
