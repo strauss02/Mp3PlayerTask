@@ -48,7 +48,7 @@ const player = {
     { id: 5, name: 'Israeli', songs: [4, 5] },
   ],
   playSong(song) {
-    console.log(/* your code here */)
+    console.log(`Playing ${song.title} from ${song.album} by ${song.artist} | ${song.duration}."`)
   },
 }
 
@@ -91,6 +91,28 @@ function searchByQuery(query) {
 function searchByDuration(duration) {
   // your code here
 }
+
+//UTILLITY FUNCTIONS
+
+function convertSecondsToMinutes(time) {
+  let minutes = Math.floor(time/60)
+  let seconds = time - minutes*60
+  let conditionalMinuteZero = minutes < 10 ? 0 : '' 
+  let conditionalSecondZero = seconds < 10 ? 0 : ''
+  return `${conditionalMinuteZero}${minutes}:${conditionalSecondZero}${seconds}}`
+}
+
+
+
+//EXTRA FRATURES
+
+
+
+//TESTING
+
+console.log(player.playSong(player.songs[1]))
+console.log(player.songs[1])
+console.log(convertSecondsToMinutes(160))
 
 module.exports = {
   player,
