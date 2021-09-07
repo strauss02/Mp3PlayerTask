@@ -48,7 +48,7 @@ const player = {
     { id: 5, name: 'Israeli', songs: [4, 5] },
   ],
   playSong(song) {
-    console.log(`Playing ${song.title} from ${song.album} by ${song.artist} | ${convertSecondsToMinutes(song.duration)}."`)
+    console.log(String.raw`Playing ${song.title} from ${song.album} by ${song.artist} | ${convertSecondsToMinutes(song.duration)}`)
   },
 }
 
@@ -104,6 +104,16 @@ function convertSecondsToMinutes(time) {
   return `${conditionalZeroMinuteDigit}${minutes}:${conditionalZeroSecondDigit}${seconds}}`
 }
 
+function getSongById(songId) {
+  for (let songObject of player.songs) {
+      if (songObject.id === songId) {
+         return songObject
+      }
+    } 
+    throw new Error("ID not found.") 
+  }
+
+
 
 
 //EXTRA FRATURES
@@ -112,7 +122,7 @@ function convertSecondsToMinutes(time) {
 
 //TESTING
 
-console.log(player.playSong(player.songs[1]))
+console.log(player.playSong(player.songs[5]))
 console.log(player.songs[1])
 console.log(convertSecondsToMinutes(99))
 
