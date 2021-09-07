@@ -97,9 +97,10 @@ function searchByDuration(duration) {
 function convertSecondsToMinutes(time) {
   let minutes = Math.floor(time/60)
   let seconds = time - minutes*60
-  let conditionalMinuteZero = minutes < 10 ? 0 : '' 
-  let conditionalSecondZero = seconds < 10 ? 0 : ''
-  return `${conditionalMinuteZero}${minutes}:${conditionalSecondZero}${seconds}}`
+  let conditionalZeroMinuteDigit = minutes < 10 ? 0 : '' 
+  let conditionalZeroSecondDigit = seconds < 10 ? 0 : ''
+  //
+  return `${conditionalZeroMinuteDigit}${minutes}:${conditionalZeroSecondDigit}${seconds}}`
 }
 
 
@@ -112,7 +113,7 @@ function convertSecondsToMinutes(time) {
 
 console.log(player.playSong(player.songs[1]))
 console.log(player.songs[1])
-console.log(convertSecondsToMinutes(160))
+console.log(convertSecondsToMinutes(180))
 
 module.exports = {
   player,
