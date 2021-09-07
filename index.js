@@ -47,13 +47,15 @@ const player = {
     { id: 1, name: 'Metal', songs: [1, 7, 4] },
     { id: 5, name: 'Israeli', songs: [4, 5] },
   ],
-  playSong(song) {
-    console.log(String.raw`Playing ${song.title} from ${song.album} by ${song.artist} | ${convertSecondsToMinutes(song.duration)}`)
-  },
+  playSong(songObject) {
+ 
+    return `Playing ${songObject.title} from ${songObject.album} by ${songObject.artist} | ${convertSecondsToMinutes(songObject.duration)}.`
+  }
 }
 
 function playSong(id) {
-  // your code here
+  let selectedSongObject = getSongById(id)
+  console.log(player.playSong(selectedSongObject))
 }
 
 function removeSong(id) {
@@ -101,7 +103,7 @@ function convertSecondsToMinutes(time) {
   let conditionalZeroMinuteDigit = minutes < 10 ? 0 : '' 
   let conditionalZeroSecondDigit = seconds < 10 ? 0 : ''
   //
-  return `${conditionalZeroMinuteDigit}${minutes}:${conditionalZeroSecondDigit}${seconds}}`
+  return `${conditionalZeroMinuteDigit}${minutes}:${conditionalZeroSecondDigit}${seconds}`
 }
 
 function getSongById(songId) {
@@ -122,9 +124,12 @@ function getSongById(songId) {
 
 //TESTING
 
-console.log(player.playSong(player.songs[5]))
+console.log(playSong(5))
 console.log(player.songs[1])
 console.log(convertSecondsToMinutes(99))
+console.log(getSongById(5))
+
+
 
 module.exports = {
   player,
