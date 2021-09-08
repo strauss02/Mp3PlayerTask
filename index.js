@@ -128,27 +128,23 @@ function playlistDuration(id) {
 }
 
 function searchByQuery(query) {
-  /*
-  Gets a query string. Returns a results object, which has:
-  songs: an array of songs in which either title or album or artist contain the query string. The songs should be sorted by their titles.
-  playlists: an array of playlists in which the name contains the query string. The playlists should be sorted by their names.
-  1. declare the object that will contain results
-  2.in player.songs, go trough each song and see if any of the title / album/ artist properties match the query. if any of them does, add the song to the result object.
-  use contain() method.
-  3. in player.playlists, go through each playlist and see if any playlist matches the name. if any does, add them to the results array.
-  4.search is not case sensitive.
-  */
   let searchResults = {songs:[] , playlists:[] ,}
   let casedQuery = query.toLowerCase()
+
   for (let song of player.songs) {
     if (song.artist.toLowerCase().includes(casedQuery) || song.title.toLowerCase().includes(casedQuery) || song.album.toLowerCase().includes(casedQuery)) {
       searchResults.songs.push(song)
     }
   }
+  for (let playlist of player.playlists) {
+    if (playlist.name.toLowerCase().includes(casedQuery)) {
+      searchResults.playlists.push(playlist)
+    }
+  }
   searchResults.songs.sort(sortTitlesAlphabetically)
+  searchResults.playlists.sort(sortNameAlphabetically)
   return searchResults
 }
-console.log(searchByQuery(''))
 
 
 function searchByDuration(duration) {
@@ -223,6 +219,9 @@ function sortTitlesAlphabetically(a,b) {
   return a.title.localeCompare(b.title)
 }
 
+function sortNameAlphabetically(a,b) {
+  return a.name.localeCompare(b.name)
+}
 
 //EXTRA FRATURES
 
