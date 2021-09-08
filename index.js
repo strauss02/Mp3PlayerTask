@@ -98,7 +98,10 @@ function createPlaylist(name, id) {
 }
 
 function playPlaylist(id) {
-  // your code here
+  let playlist = getPlaylistById(id)
+  for (song of playlist.songs) {
+    playSong(song)
+  }
 }
 
 function editPlaylist(playlistId, songId) {
@@ -198,6 +201,7 @@ console.log(getPlaylistById(5))
 console.log(removePlaylist(5))
 console.log(createPlaylist('Rock',9))
 console.log(player.playlists)
+console.log(playPlaylist(1))
 
 //NOTICE
 /*
