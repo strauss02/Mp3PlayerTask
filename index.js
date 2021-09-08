@@ -58,7 +58,8 @@ function playSong(id) {
 }
 
 function removeSong(id) {
-  // your code here
+  // 1. match id to object 2.get song index 3.splice the song object from the songs array by index 4.look for song id presence in playlists 5.if present, get index in array 6.splice from playlist songs array
+
 }
 
 function addSong(title, album, artist, duration, id) {
@@ -93,7 +94,7 @@ function searchByDuration(duration) {
   // your code here
 }
 
-//UTILLITY FUNCTIONS
+//UTILITY FUNCTIONS
 
 //convert from second to mm:ss format. e.g. 160 to 02:40
 function convertSecondsToMinutes(time) {
@@ -114,6 +115,11 @@ function getSongById(songId) {
     throw new Error(`Whoops! we couldn't find a song that matches the ID you entered. (song ID: ${songId})`) 
   }
 
+function getSongIdIndex(songId) {
+  let songObj = getSongById(songId)
+  return player.songs.indexOf(songObj)
+}
+
 
 
 
@@ -123,10 +129,11 @@ function getSongById(songId) {
 
 //TESTING
 
-console.log(playSong(6))
+console.log(playSong(7))
 console.log(player.songs[1])
 console.log(convertSecondsToMinutes(99))
 console.log(getSongById(5))
+console.log(getSongIdIndex(7))
 
 
 
