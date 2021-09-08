@@ -84,11 +84,14 @@ function addSong(title, album, artist, duration, id) {
 }
 
 function removePlaylist(id) {
-  
+  let playlist = getPlaylistById(id)
+  player.playlists.splice(player.playlists.indexOf(playlist),1)
 }
 
 function createPlaylist(name, id) {
-  // your code here
+  let newPlaylist = { id: id, name: name, songs: []}
+  player.playlists.push(newPlaylist)
+  return newPlaylist.id
 }
 
 function playPlaylist(id) {
@@ -181,21 +184,16 @@ function getVacantId() {
 
 //TESTING
 
-console.log(playSong(7))
-console.log(player.songs[1])
 console.log(convertSecondsToMinutes(99))
 console.log(getSongById(5))
 console.log(getSongIndexById(7))
-console.log(removeSong)
-console.log(player.playlists[0])
-console.log(removeSong)
-console.log(player.playlists)
 console.log(addSong('Smoke on the Water', 'Machine Head', 'Deep Purple', '04:13',  ))
-console.log(player.songs)
 console.log(getVacantId())
 console.log(checkIdExistence(9))
 console.log(getPlaylistById(5))
-
+console.log(removePlaylist(5))
+console.log(createPlaylist('Rock',3))
+console.log(player.playlists)
 
 module.exports = {
   player,
