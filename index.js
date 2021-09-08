@@ -117,7 +117,14 @@ function editPlaylist(playlistId, songId) {
 }
 
 function playlistDuration(id) {
-  // your code here
+  // return total duration of all songs in that playlist. 1.get the playlist 2.get each duration by id 3.return sum
+  let playlist = getPlaylistById(id)
+  let totalDuration = 0
+  for (song of playlist.songs) {
+    let songDuration = getSongById(song).duration
+    totalDuration += songDuration
+  }
+  return totalDuration
 }
 
 function searchByQuery(query) {
@@ -212,8 +219,9 @@ console.log(editPlaylist(9,5))
 console.log(player.playlists)
 console.log(editPlaylist(9,5))
 console.log(player.playlists)
-console.log(editPlaylist(5,4))
+console.log(editPlaylist(5,3))
 console.log(player.playlists)
+console.log(playlistDuration(5))
 
 //NOTICE
 /*
