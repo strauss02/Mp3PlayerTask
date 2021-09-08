@@ -59,8 +59,8 @@ function playSong(id) {
 
 function removeSong(id) {
   player.songs.splice(getSongIndexById(id),1) 
-  for (playlist of player.playlists) {
-    for (songID of playlist.songs) {
+  for (let playlist of player.playlists) {
+    for (let songID of playlist.songs) {
       if (songID === id) {
         playlist.songs.splice(playlist.songs.indexOf(id),1)
       }
@@ -142,6 +142,10 @@ function getSongIndexById(songId) {
   return player.songs.indexOf(songObj)
 }
 
+function getPlaylistById(playlistId) {
+  for (let playlist of player.playlists)
+}
+
 function checkIdExistence(id) {
   for (let song of player.songs) {
     if (id === song.id) {
@@ -155,7 +159,7 @@ function checkIdExistence(id) {
 function getVacantId() {
   mainLoop:
   for (let i = 1; i <= player.songs.length+1; i++) {
-    for (song of player.songs) {
+    for (let song of player.songs) {
       if (song.id === i) {
         continue mainLoop
       }
