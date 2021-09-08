@@ -108,9 +108,15 @@ function convertSecondsToMinutes(time) {
   let seconds = time - minutes*60
   let conditionalZeroMinuteDigit = minutes < 10 ? 0 : '' 
   let conditionalZeroSecondDigit = seconds < 10 ? 0 : ''
-  //
   return `${conditionalZeroMinuteDigit}${minutes}:${conditionalZeroSecondDigit}${seconds}`
 }
+
+function convertMinutesToSeconds(time) {
+  let seconds = parseInt(time.slice(time.length-2,time.length))
+  let minutes = parseInt(time.slice([0], time.length-3))
+  return seconds + minutes*60
+}
+console.log(convertMinutesToSeconds("22:40"))
 
 function getSongById(songId) {
   for (let songObject of player.songs) {
@@ -143,6 +149,9 @@ console.log(removeSong)
 console.log(player.playlists[0])
 console.log(removeSong(4))
 console.log(player.playlists)
+console.log(addSong('Smoke on the Water', 'Machine Head', 'Deep Purple', '189', 5))
+console.log(player.songs)
+console.log('02:40'.slice('02:40'.length-2,'02:40'.length))
 
 
 module.exports = {
