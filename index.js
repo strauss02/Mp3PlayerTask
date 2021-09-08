@@ -139,6 +139,15 @@ function getSongIndexById(songId) {
   return player.songs.indexOf(songObj)
 }
 
+function checkIdExistence(id) {
+  for (let song of player.songs) {
+    if (id === song.id) {
+      return true
+    }
+  }
+  return false
+}
+
 //gets number (i) and goes through all the songs to see if anyone has it. if not, it is considered avaliable.
 function getVacantId() {
   mainLoop:
@@ -151,7 +160,6 @@ function getVacantId() {
     return i
   }
 }
-console.log(getVacantId())
 
 
 
@@ -168,11 +176,13 @@ console.log(getSongById(5))
 console.log(getSongIndexById(7))
 console.log(removeSong)
 console.log(player.playlists[0])
-console.log(removeSong(4))
+console.log(removeSong)
 console.log(player.playlists)
-console.log(addSong('Smoke on the Water', 'Machine Head', 'Deep Purple', '04:13', 5))
+console.log(addSong('Smoke on the Water', 'Machine Head', 'Deep Purple', '04:13',  ))
 console.log(player.songs)
-console.log('02:40'.slice('02:40'.length-2,'02:40'.length))
+console.log(getVacantId())
+console.log(checkIdExistence(9))
+
 
 
 module.exports = {
