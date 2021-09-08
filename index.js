@@ -69,15 +69,18 @@ function removeSong(id) {
 }
 
 function addSong(title, album, artist, duration, id) {
+  if (checkIdExistence(id)) {
+    throw new Error(`Whoops! seems like ID ${id} is already in use`)
+  }
   let newSong = {
-      id: 9,
-      title: title,
-      album: album,
-      artist: artist,
-      duration: convertMinutesToSeconds(duration)
-    }
-
-    player.songs.push(newSong)
+    id: (id ? id : getVacantId()),
+    title: title,
+    album: album,
+    artist: artist,
+    duration: convertMinutesToSeconds(duration)
+  }
+  player.songs.push(newSong)
+  return newSong.id
 }
 
 function removePlaylist(id) {
