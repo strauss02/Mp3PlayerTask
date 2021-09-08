@@ -84,7 +84,7 @@ function addSong(title, album, artist, duration, id) {
 }
 
 function removePlaylist(id) {
-  // your code here
+  
 }
 
 function createPlaylist(name, id) {
@@ -143,7 +143,12 @@ function getSongIndexById(songId) {
 }
 
 function getPlaylistById(playlistId) {
-  for (let playlist of player.playlists)
+  for (let playlist of player.playlists) {
+    if (playlist.id === playlistId) {
+      return playlist
+    } 
+  }
+  throw new Error(`Hmmm.. There's no playlist with that ID`)
 }
 
 function checkIdExistence(id) {
@@ -189,7 +194,7 @@ console.log(addSong('Smoke on the Water', 'Machine Head', 'Deep Purple', '04:13'
 console.log(player.songs)
 console.log(getVacantId())
 console.log(checkIdExistence(9))
-
+console.log(getPlaylistById(5))
 
 
 module.exports = {
