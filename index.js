@@ -145,10 +145,10 @@ function searchByQuery(query) {
       searchResults.songs.push(song)
     }
   }
-  searchResults.songs.sort((a,b) => b.title - a.title)
+  searchResults.songs.sort(sortTitlesAlphabetically)
   return searchResults
 }
-console.log(searchByQuery('as'))
+console.log(searchByQuery(''))
 
 
 function searchByDuration(duration) {
@@ -220,7 +220,7 @@ function getVacantId(array) {
 }
 
 function sortTitlesAlphabetically(a,b) {
-  a.title.localeCompare(b.title)
+  return a.title.localeCompare(b.title)
 }
 
 
