@@ -128,8 +128,28 @@ function playlistDuration(id) {
 }
 
 function searchByQuery(query) {
-  // your code here
+  /*
+  Gets a query string. Returns a results object, which has:
+  songs: an array of songs in which either title or album or artist contain the query string. The songs should be sorted by their titles.
+  playlists: an array of playlists in which the name contains the query string. The playlists should be sorted by their names.
+  1. declare the object that will contain results
+  2.in player.songs, go trough each song and see if any of the title / album/ artist properties match the query. if any of them does, add the song to the result object.
+  use contain() method.
+  3. in player.playlists, go through each playlist and see if any playlist matches the name. if any does, add them to the results array.
+  4.search is not case sensitive.
+  */
+  let searchResults = {songs:[] , playlists:[] ,}
+  let casedQuery = query.toLowerCase()
+  for (let song of player.songs) {
+    if (song.artist.toLowerCase().includes(casedQuery) || song.title.toLowerCase().includes(casedQuery) || song.album.toLowerCase().includes(casedQuery)) {
+      searchResults.songs.push(song)
+    }
+  }
+  searchResults.songs.sort((a,b) => b.title - a.title)
+  return searchResults
 }
+console.log(searchByQuery('as'))
+
 
 function searchByDuration(duration) {
   // your code here
@@ -184,6 +204,8 @@ function checkIdExistence(id, array) {
   return false
 }
 
+
+
 //gets number (i) and goes through all the songs to see if anyone has it. if not, it is considered avaliable.
 function getVacantId(array) {
   mainLoop:
@@ -197,6 +219,9 @@ function getVacantId(array) {
   }
 }
 
+function sortTitlesAlphabetically(a,b) {
+  a.title.localeCompare(b.title)
+}
 
 
 //EXTRA FRATURES
