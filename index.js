@@ -148,8 +148,33 @@ function searchByQuery(query) {
 
 
 function searchByDuration(duration) {
-  // your code here
+  // gets duration in mm:ss. returns song / playlist with the closest duration
+  //go through all songs. for each song duration, the one closest becomes durationMatch.
+  //go through all playlists. for each playlists, the one closest become durationMatch
+  let durationMatch = 1000
+  let match = undefined
+  let formattedDuration = convertMinutesToSeconds(duration)
+  console.log(formattedDuration)
+  for (song of player.songs) {
+    if (Math.abs(formattedDuration - song.duration) < durationMatch) {
+      console.log(durationMatch)
+      durationMatch = Math.abs(formattedDuration - song.duration)
+      console.log(durationMatch)
+      match = song
+      console.log(match)
+    }
+  }
+  for (playlist of player.playlists) {
+    let currentPlaylistDuration = playlistDuration(playlist.id)
+    if (Math.abs(formattedDuration - currentPlaylistDuration) < durationMatch) {
+      match = playlist
+    }
+  }
+  console.log(match)
+  return match
 }
+
+
 
 //UTILITY FUNCTIONS
 
@@ -246,11 +271,13 @@ console.log(player.playlists)
 console.log(editPlaylist(5,3))
 console.log(player.playlists)
 console.log(playlistDuration(5))
+console.log(searchByDuration('03:07'))
+console.log(convertMinutesToSeconds('03:07'))
 
 //NOTICE
 /*
     1. what is the policy of handling ID's? can it be 0? can it be negative? requires clarification
-
+    2. add error if invalid duration format was entered
 
 */
 
