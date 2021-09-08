@@ -59,6 +59,7 @@ function playSong(id) {
 
 function removeSong(id) {
   // 1. match id to object 2.get song index 3.splice the song object from the songs array by index 4.look for song id presence in playlists 5.if present, get index in array 6.splice from playlist songs array
+  player.songs.splice(getSongIdIndex(id),1) 
 
 }
 
@@ -120,6 +121,15 @@ function getSongIdIndex(songId) {
   return player.songs.indexOf(songObj)
 }
 
+function getIndicesInPlaylists(songId) {
+  let indicesInPlaylists = []
+  for (let playlistObj of player.playlists) {
+    if (playlistObj.songs.indexOf(songId) != -1) {
+      indicesInPlaylists.push(playlistObj.songs.indexOf(songId)) 
+    } else indicesInPlaylists.push('non-existent')
+  }  
+  return indicesInPlaylists
+}
 
 
 
@@ -134,8 +144,9 @@ console.log(player.songs[1])
 console.log(convertSecondsToMinutes(99))
 console.log(getSongById(5))
 console.log(getSongIdIndex(7))
-
-
+console.log(removeSong)
+console.log(player.songs)
+console.log(getIndexInPlaylists(4))
 
 module.exports = {
   player,
