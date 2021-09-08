@@ -73,7 +73,7 @@ function addSong(title, album, artist, duration, id) {
     throw new Error(`Whoops! seems like ID ${id} is already in use`)
   }
   let newSong = {
-    id: (id ? id : getVacantId()),
+    id: (id ? id : getVacantId(player.songs)),
     title: title,
     album: album,
     artist: artist,
@@ -164,11 +164,11 @@ function checkIdExistence(id) {
 }
 
 //gets number (i) and goes through all the songs to see if anyone has it. if not, it is considered avaliable.
-function getVacantId() {
+function getVacantId(array) {
   mainLoop:
-  for (let i = 1; i <= player.songs.length+1; i++) {
-    for (let song of player.songs) {
-      if (song.id === i) {
+  for (let i = 1; i <= array.length+1; i++) {
+    for (let item of array) {
+      if (item.id === i) {
         continue mainLoop
       }
     }
@@ -188,7 +188,7 @@ console.log(convertSecondsToMinutes(99))
 console.log(getSongById(5))
 console.log(getSongIndexById(7))
 console.log(addSong('Smoke on the Water', 'Machine Head', 'Deep Purple', '04:13',  ))
-console.log(getVacantId())
+console.log(getVacantId(player.playlists))
 console.log(checkIdExistence(9))
 console.log(getPlaylistById(5))
 console.log(removePlaylist(5))
