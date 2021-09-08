@@ -105,15 +105,15 @@ function playPlaylist(id) {
 }
 
 function editPlaylist(playlistId, songId) {
-  // 1. if song exists, delete it. if the playlists is left empty, delete it. if it doesn't exist in playlist, pushes it to the end.
   let playlist = getPlaylistById(playlistId)
-  for (song of playlist.songs) {
-    if (song === songId) {
-      playlist.songs.splice(playlist.songs.indexOf(song), 1)
+  if (getSongById(songId) && !playlist.songs.includes(songId)) {
+    playlist.songs.push(songId)
+  } else {
+    playlist.songs.splice(playlist.songs.indexOf(songId), 1)
+    if (playlist.songs.length === 0) {
+      removePlaylist(playlistId)
     }
   }
-  // if (playlist)
-  return playlist
 }
 
 function playlistDuration(id) {
@@ -204,12 +204,16 @@ console.log(getSongIndexById(7))
 console.log(addSong('Smoke on the Water', 'Machine Head', 'Deep Purple', '04:13',  ))
 console.log(player.songs)
 console.log(getVacantId(player.playlists))
-console.log(checkIdExistence(6,player.songs))
 console.log(getPlaylistById(5))
 console.log(createPlaylist('Rock',9))
 console.log(player.playlists)
 console.log(playPlaylist(1))
-console.log(editPlaylist(1,7))
+console.log(editPlaylist(9,5))
+console.log(player.playlists)
+console.log(editPlaylist(9,5))
+console.log(player.playlists)
+console.log(editPlaylist(5,4))
+console.log(player.playlists)
 
 //NOTICE
 /*
