@@ -69,7 +69,7 @@ function removeSong(id) {
 }
 
 function addSong(title, album, artist, duration, id) {
-  if (checkIdExistence(id)) {
+  if (checkIdExistence(id,player.songs)) {
     throw new Error(`Whoops! seems like ID ${id} is already in use`)
   }
   let newSong = {
@@ -89,6 +89,7 @@ function removePlaylist(id) {
 }
 
 function createPlaylist(name, id) {
+
   let newPlaylist = { id: id, name: name, songs: []}
   player.playlists.push(newPlaylist)
   return newPlaylist.id
@@ -154,9 +155,9 @@ function getPlaylistById(playlistId) {
   throw new Error(`Hmmm.. There's no playlist with that ID`)
 }
 
-function checkIdExistence(id) {
-  for (let song of player.songs) {
-    if (id === song.id) {
+function checkIdExistence(id, array) {
+  for (let item of array) {
+    if (id === item.id) {
       return true
     }
   }
@@ -188,8 +189,9 @@ console.log(convertSecondsToMinutes(99))
 console.log(getSongById(5))
 console.log(getSongIndexById(7))
 console.log(addSong('Smoke on the Water', 'Machine Head', 'Deep Purple', '04:13',  ))
+console.log(player.songs)
 console.log(getVacantId(player.playlists))
-console.log(checkIdExistence(9))
+console.log(checkIdExistence(6,player.songs))
 console.log(getPlaylistById(5))
 console.log(removePlaylist(5))
 console.log(createPlaylist('Rock',3))
