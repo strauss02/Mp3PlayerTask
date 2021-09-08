@@ -89,8 +89,10 @@ function removePlaylist(id) {
 }
 
 function createPlaylist(name, id) {
-
-  let newPlaylist = { id: id, name: name, songs: []}
+  if (checkIdExistence(id,player.playlists)) {
+    throw new Error("Whoa! that ID is already taken!")
+  }
+  let newPlaylist = { id: id ? id : getVacantId(player.playlists), name: name, songs: []}
   player.playlists.push(newPlaylist)
   return newPlaylist.id
 }
@@ -168,7 +170,7 @@ function checkIdExistence(id, array) {
 function getVacantId(array) {
   mainLoop:
   for (let i = 1; i <= array.length+1; i++) {
-    for (let item of array) {
+    for (let item of array) { 
       if (item.id === i) {
         continue mainLoop
       }
@@ -194,8 +196,15 @@ console.log(getVacantId(player.playlists))
 console.log(checkIdExistence(6,player.songs))
 console.log(getPlaylistById(5))
 console.log(removePlaylist(5))
-console.log(createPlaylist('Rock',3))
+console.log(createPlaylist('Rock',9))
 console.log(player.playlists)
+
+//NOTICE
+/*
+    1. what is the policy of handling ID's? can it be 0? can it be negative? requires clarification
+
+
+*/
 
 module.exports = {
   player,
