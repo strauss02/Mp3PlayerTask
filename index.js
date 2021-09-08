@@ -105,7 +105,15 @@ function playPlaylist(id) {
 }
 
 function editPlaylist(playlistId, songId) {
-  // your code here
+  // 1. if song exists, delete it. if the playlists is left empty, delete it. if it doesn't exist in playlist, pushes it to the end.
+  let playlist = getPlaylistById(playlistId)
+  for (song of playlist.songs) {
+    if (song === songId) {
+      playlist.songs.splice(playlist.songs.indexOf(song), 1)
+    }
+  }
+  // if (playlist)
+  return playlist
 }
 
 function playlistDuration(id) {
@@ -198,10 +206,10 @@ console.log(player.songs)
 console.log(getVacantId(player.playlists))
 console.log(checkIdExistence(6,player.songs))
 console.log(getPlaylistById(5))
-console.log(removePlaylist(5))
 console.log(createPlaylist('Rock',9))
 console.log(player.playlists)
 console.log(playPlaylist(1))
+console.log(editPlaylist(1,7))
 
 //NOTICE
 /*
