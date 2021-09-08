@@ -111,7 +111,7 @@ function getSongById(songId) {
          return songObject
       }
     } 
-    throw new Error("ID not found.") 
+    throw new Error(`Whoops! we couldn't find a song that matches the ID you entered. (song ID: ${songId})`) 
   }
 
 
@@ -123,7 +123,7 @@ function getSongById(songId) {
 
 //TESTING
 
-console.log(playSong(5))
+console.log(playSong(6))
 console.log(player.songs[1])
 console.log(convertSecondsToMinutes(99))
 console.log(getSongById(5))
