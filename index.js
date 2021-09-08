@@ -69,7 +69,15 @@ function removeSong(id) {
 }
 
 function addSong(title, album, artist, duration, id) {
-  // your code here
+  let newSong = {
+      id: 9,
+      title: title,
+      album: album,
+      artist: artist,
+      duration: convertMinutesToSeconds(duration)
+    }
+
+    player.songs.push(newSong)
 }
 
 function removePlaylist(id) {
@@ -116,7 +124,6 @@ function convertMinutesToSeconds(time) {
   let minutes = parseInt(time.slice([0], time.length-3))
   return seconds + minutes*60
 }
-console.log(convertMinutesToSeconds("22:40"))
 
 function getSongById(songId) {
   for (let songObject of player.songs) {
@@ -131,6 +138,20 @@ function getSongIndexById(songId) {
   let songObj = getSongById(songId)
   return player.songs.indexOf(songObj)
 }
+
+//gets number (i) and goes through all the songs to see if anyone has it. if not, it is considered avaliable.
+function getVacantId() {
+  mainLoop:
+  for (let i = 1; i <= player.songs.length+1; i++) {
+    for (song of player.songs) {
+      if (song.id === i) {
+        continue mainLoop
+      }
+    }
+    return i
+  }
+}
+console.log(getVacantId())
 
 
 
@@ -149,7 +170,7 @@ console.log(removeSong)
 console.log(player.playlists[0])
 console.log(removeSong(4))
 console.log(player.playlists)
-console.log(addSong('Smoke on the Water', 'Machine Head', 'Deep Purple', '189', 5))
+console.log(addSong('Smoke on the Water', 'Machine Head', 'Deep Purple', '04:13', 5))
 console.log(player.songs)
 console.log('02:40'.slice('02:40'.length-2,'02:40'.length))
 
