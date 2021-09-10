@@ -187,13 +187,17 @@ function searchByDuration(duration) {
 
 //convert from second to mm:ss format. e.g. 160 to 02:40
 function convertSecondsToMinutes(time) {
+  if (Number.isNaN(time)) {
+    throw new Error(
+      'Invalid argument: time entered is not a number or a string containing a number.'
+    )
+  }
   let minutes = Math.floor(time / 60)
   let seconds = time - minutes * 60
   let paddedMinutes = minutes.toString().padStart(2, 0)
   let paddedSeconds = seconds.toString().padStart(2, 0)
   return `${paddedMinutes}:${paddedSeconds}`
 }
-console.log(convertSecondsToMinutes())
 
 //convert from mm:ss format to seconds. e.g. 02:40 to 160
 function convertMinutesToSeconds(time) {
