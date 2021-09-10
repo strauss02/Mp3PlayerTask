@@ -187,16 +187,16 @@ function searchByDuration(duration) {
 
 //convert from second to mm:ss format. e.g. 160 to 02:40
 function convertSecondsToMinutes(time) {
-  // change to sec
   let minutes = Math.floor(time / 60)
   let seconds = time - minutes * 60
-  let conditionalZeroMinuteDigit = minutes < 10 ? 0 : ''
-  let conditionalZeroSecondDigit = seconds < 10 ? 0 : ''
-  return `${conditionalZeroMinuteDigit}${minutes}:${conditionalZeroSecondDigit}${seconds}`
+  let paddedMinutes = minutes.toString().padStart(2, 0)
+  let paddedSeconds = seconds.toString().padStart(2, 0)
+  return `${paddedMinutes}:${paddedSeconds}`
 }
+console.log(convertSecondsToMinutes())
 
+//convert from mm:ss format to seconds. e.g. 02:40 to 160
 function convertMinutesToSeconds(time) {
-  // change to mins
   let seconds = parseInt(time.slice(time.length - 2, time.length))
   let minutes = parseInt(time.slice([0], time.length - 3))
   return seconds + minutes * 60
@@ -269,9 +269,7 @@ function sortNameAlphabetically(a, b) {
 console.log(convertSecondsToMinutes(99))
 console.log(getSongById(4))
 console.log(getSongIndexById(7))
-console.log(
-  addSong('Smoke on the Water', 'Machine Head', 'Deep Purple', '04:13')
-)
+console.log(convertSecondsToMinutes(160))
 console.log(playSong(2))
 console.log(getVacantId(player.playlists))
 console.log(getPlaylistById(5))
