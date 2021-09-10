@@ -60,7 +60,10 @@ function playSong(id) {
 }
 
 function removeSong(id) {
+  //remove song from songs
   player.songs.splice(getSongIndexById(id), 1)
+
+  // remove from playlists
   for (let playlist of player.playlists) {
     for (let songID of playlist.songs) {
       if (songID === id) {
@@ -187,11 +190,11 @@ function searchByDuration(duration) {
 
 //convert from second to mm:ss format. e.g. 160 to 02:40
 function convertSecondsToMinutes(time) {
-  if (Number.isNaN(time)) {
-    throw new Error(
-      'Invalid argument: time entered is not a number or a string containing a number.'
-    )
-  }
+  // if () {
+  //   throw new Error(
+  //     'Invalid argument: time entered is not a number or a string containing a number.'
+  //   )
+  // }
   let minutes = Math.floor(time / 60)
   let seconds = time - minutes * 60
   let paddedMinutes = minutes.toString().padStart(2, 0)
@@ -201,8 +204,9 @@ function convertSecondsToMinutes(time) {
 
 //convert from mm:ss format to seconds. e.g. 02:40 to 160
 function convertMinutesToSeconds(time) {
+  // TODO: maybe add string check?
   let seconds = parseInt(time.slice(time.length - 2, time.length))
-  let minutes = parseInt(time.slice([0], time.length - 3))
+  let minutes = parseInt(time.slice(0, time.length - 3))
   return seconds + minutes * 60
 }
 
@@ -267,6 +271,8 @@ function sortNameAlphabetically(a, b) {
 //EXTRA FRATURES
 
 //ERROR OBJECTS
+
+//TODO: add exception classes for each error and make a standard format
 
 //TESTING
 
