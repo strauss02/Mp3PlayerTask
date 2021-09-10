@@ -187,6 +187,7 @@ function searchByDuration(duration) {
 
 //convert from second to mm:ss format. e.g. 160 to 02:40
 function convertSecondsToMinutes(time) {
+  // change to sec
   let minutes = Math.floor(time / 60)
   let seconds = time - minutes * 60
   let conditionalZeroMinuteDigit = minutes < 10 ? 0 : ''
@@ -195,25 +196,30 @@ function convertSecondsToMinutes(time) {
 }
 
 function convertMinutesToSeconds(time) {
+  // change to mins
   let seconds = parseInt(time.slice(time.length - 2, time.length))
   let minutes = parseInt(time.slice([0], time.length - 3))
   return seconds + minutes * 60
 }
 
-function getSongById(songId) {
-  for (let songObject of player.songs) {
-    if (songObject.id === songId) {
-      return songObject
+function getSongById(id) {
+  if (typeof id != 'number') {
+    throw new Error('Whoopa! ID should be a number.')
+  }
+
+  for (let song of player.songs) {
+    if (song.id === id) {
+      return song
     }
   }
   throw new Error(
-    `Whoops! we couldn't find a song that matches the ID you entered. (song ID: ${songId})`
+    `Whoops! we couldn't find a song that matches the ID you entered. (song ID: ${id})`
   )
 }
 
-function getSongIndexById(songId) {
-  let songObj = getSongById(songId)
-  return player.songs.indexOf(songObj)
+function getSongIndexById(id) {
+  let song = getSongById(id)
+  return player.songs.indexOf(song)
 }
 
 function getPlaylistById(playlistId) {
@@ -261,12 +267,12 @@ function sortNameAlphabetically(a, b) {
 //TESTING
 
 console.log(convertSecondsToMinutes(99))
-console.log(getSongById(5))
+console.log(getSongById(4))
 console.log(getSongIndexById(7))
 console.log(
   addSong('Smoke on the Water', 'Machine Head', 'Deep Purple', '04:13')
 )
-console.log(player.songs)
+console.log(playSong(2))
 console.log(getVacantId(player.playlists))
 console.log(getPlaylistById(5))
 console.log(createPlaylist('Rock', 9))
