@@ -47,16 +47,16 @@ const player = {
     { id: 1, name: 'Metal', songs: [1, 7, 4] },
     { id: 5, name: 'Israeli', songs: [4, 5] },
   ],
-  playSong(songObject) {
-    return `Playing ${songObject.title} from ${songObject.album} by ${
-      songObject.artist
-    } | ${convertSecondsToMinutes(songObject.duration)}.`
+  playSong(song) {
+    return `Playing ${song.title} from ${song.album} by ${
+      song.artist
+    } | ${convertSecondsToMinutes(song.duration)}.`
   },
 }
 
 function playSong(id) {
-  let selectedSongObject = getSongById(id)
-  console.log(player.playSong(selectedSongObject))
+  let song = getSongById(id)
+  console.log(player.playSong(song))
 }
 
 function removeSong(id) {
