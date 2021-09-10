@@ -48,8 +48,10 @@ const player = {
     { id: 5, name: 'Israeli', songs: [4, 5] },
   ],
   playSong(songObject) {
-    return `Playing ${songObject.title} from ${songObject.album} by ${songObject.artist} | ${convertSecondsToMinutes(songObject.duration)}.`
-  }
+    return `Playing ${songObject.title} from ${songObject.album} by ${
+      songObject.artist
+    } | ${convertSecondsToMinutes(songObject.duration)}.`
+  },
 }
 
 function playSong(id) {
@@ -58,26 +60,26 @@ function playSong(id) {
 }
 
 function removeSong(id) {
-  player.songs.splice(getSongIndexById(id),1) 
+  player.songs.splice(getSongIndexById(id), 1)
   for (let playlist of player.playlists) {
     for (let songID of playlist.songs) {
       if (songID === id) {
-        playlist.songs.splice(playlist.songs.indexOf(id),1)
+        playlist.songs.splice(playlist.songs.indexOf(id), 1)
       }
     }
   }
 }
 
 function addSong(title, album, artist, duration, id) {
-  if (checkIdExistence(id,player.songs)) {
+  if (checkIdExistence(id, player.songs)) {
     throw new Error(`Whoops! seems like ID ${id} is already in use`)
   }
   let newSong = {
-    id: (id ? id : getVacantId(player.songs)),
+    id: id ? id : getVacantId(player.songs),
     title: title,
     album: album,
     artist: artist,
-    duration: convertMinutesToSeconds(duration)
+    duration: convertMinutesToSeconds(duration),
   }
   player.songs.push(newSong)
   return newSong.id
@@ -85,14 +87,18 @@ function addSong(title, album, artist, duration, id) {
 
 function removePlaylist(id) {
   let playlist = getPlaylistById(id)
-  player.playlists.splice(player.playlists.indexOf(playlist),1)
+  player.playlists.splice(player.playlists.indexOf(playlist), 1)
 }
 
 function createPlaylist(name, id) {
-  if (checkIdExistence(id,player.playlists)) {
-    throw new Error("Whoa! that ID is already taken!")
+  if (checkIdExistence(id, player.playlists)) {
+    throw new Error('Whoa! that ID is already taken!')
   }
-  let newPlaylist = { id: id ? id : getVacantId(player.playlists), name: name, songs: []}
+  let newPlaylist = {
+    id: id ? id : getVacantId(player.playlists),
+    name: name,
+    songs: [],
+  }
   player.playlists.push(newPlaylist)
   return newPlaylist.id
 }
@@ -128,11 +134,15 @@ function playlistDuration(id) {
 }
 
 function searchByQuery(query) {
-  let searchResults = {songs:[] , playlists:[] ,}
+  let searchResults = { songs: [], playlists: [] }
   let casedQuery = query.toLowerCase()
 
   for (let song of player.songs) {
-    if (song.artist.toLowerCase().includes(casedQuery) || song.title.toLowerCase().includes(casedQuery) || song.album.toLowerCase().includes(casedQuery)) {
+    if (
+      song.artist.toLowerCase().includes(casedQuery) ||
+      song.title.toLowerCase().includes(casedQuery) ||
+      song.album.toLowerCase().includes(casedQuery)
+    ) {
       searchResults.songs.push(song)
     }
   }
@@ -145,7 +155,6 @@ function searchByQuery(query) {
   searchResults.playlists.sort(sortNameAlphabetically)
   return searchResults
 }
-
 
 function searchByDuration(duration) {
   // gets duration in mm:ss. returns song / playlist with the closest duration
@@ -174,33 +183,33 @@ function searchByDuration(duration) {
   return match
 }
 
-
-
 //UTILITY FUNCTIONS
 
 //convert from second to mm:ss format. e.g. 160 to 02:40
 function convertSecondsToMinutes(time) {
-  let minutes = Math.floor(time/60)
-  let seconds = time - minutes*60
-  let conditionalZeroMinuteDigit = minutes < 10 ? 0 : '' 
+  let minutes = Math.floor(time / 60)
+  let seconds = time - minutes * 60
+  let conditionalZeroMinuteDigit = minutes < 10 ? 0 : ''
   let conditionalZeroSecondDigit = seconds < 10 ? 0 : ''
   return `${conditionalZeroMinuteDigit}${minutes}:${conditionalZeroSecondDigit}${seconds}`
 }
 
 function convertMinutesToSeconds(time) {
-  let seconds = parseInt(time.slice(time.length-2,time.length))
-  let minutes = parseInt(time.slice([0], time.length-3))
-  return seconds + minutes*60
+  let seconds = parseInt(time.slice(time.length - 2, time.length))
+  let minutes = parseInt(time.slice([0], time.length - 3))
+  return seconds + minutes * 60
 }
 
 function getSongById(songId) {
   for (let songObject of player.songs) {
-      if (songObject.id === songId) {
-         return songObject
-      }
-    } 
-    throw new Error(`Whoops! we couldn't find a song that matches the ID you entered. (song ID: ${songId})`) 
+    if (songObject.id === songId) {
+      return songObject
+    }
   }
+  throw new Error(
+    `Whoops! we couldn't find a song that matches the ID you entered. (song ID: ${songId})`
+  )
+}
 
 function getSongIndexById(songId) {
   let songObj = getSongById(songId)
@@ -211,7 +220,7 @@ function getPlaylistById(playlistId) {
   for (let playlist of player.playlists) {
     if (playlist.id === playlistId) {
       return playlist
-    } 
+    }
   }
   throw new Error(`Hmmm.. There's no playlist with that ID`)
 }
@@ -225,13 +234,10 @@ function checkIdExistence(id, array) {
   return false
 }
 
-
-
 //gets number (i) and goes through all the songs to see if anyone has it. if not, it is considered avaliable.
 function getVacantId(array) {
-  mainLoop:
-  for (let i = 1; i <= array.length+1; i++) {
-    for (let item of array) { 
+  mainLoop: for (let i = 1; i <= array.length + 1; i++) {
+    for (let item of array) {
       if (item.id === i) {
         continue mainLoop
       }
@@ -240,35 +246,37 @@ function getVacantId(array) {
   }
 }
 
-function sortTitlesAlphabetically(a,b) {
+function sortTitlesAlphabetically(a, b) {
   return a.title.localeCompare(b.title)
 }
 
-function sortNameAlphabetically(a,b) {
+function sortNameAlphabetically(a, b) {
   return a.name.localeCompare(b.name)
 }
 
 //EXTRA FRATURES
 
-
+//ERROR OBJECTS
 
 //TESTING
 
 console.log(convertSecondsToMinutes(99))
 console.log(getSongById(5))
 console.log(getSongIndexById(7))
-console.log(addSong('Smoke on the Water', 'Machine Head', 'Deep Purple', '04:13',  ))
+console.log(
+  addSong('Smoke on the Water', 'Machine Head', 'Deep Purple', '04:13')
+)
 console.log(player.songs)
 console.log(getVacantId(player.playlists))
 console.log(getPlaylistById(5))
-console.log(createPlaylist('Rock',9))
+console.log(createPlaylist('Rock', 9))
 console.log(player.playlists)
 console.log(playPlaylist(1))
-console.log(editPlaylist(9,5))
+console.log(editPlaylist(9, 5))
 console.log(player.playlists)
-console.log(editPlaylist(9,5))
+console.log(editPlaylist(9, 5))
 console.log(player.playlists)
-console.log(editPlaylist(5,3))
+console.log(editPlaylist(5, 3))
 console.log(player.playlists)
 console.log(playlistDuration(5))
 console.log(searchByDuration('03:07'))
