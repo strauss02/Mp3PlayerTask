@@ -74,7 +74,14 @@ function removeSong(id) {
 }
 
 function addSong(title, album, artist, duration, id) {
-  if (checkIdExistence(id, player.songs)) {
+  //TODO : replace checkIdExists logic with try catch on getSongById
+  // try {
+  //   if (id && getSongById(id)) {
+  //     throw new Error('ID already exists')
+  //   }
+  // } catch BadIDException {}
+
+  if (checkIdExists(id, player.songs)) {
     throw new Error(`Whoops! seems like ID ${id} is already in use`)
   }
   let newSong = {
@@ -94,7 +101,7 @@ function removePlaylist(id) {
 }
 
 function createPlaylist(name, id) {
-  if (checkIdExistence(id, player.playlists)) {
+  if (checkIdExists(id, player.playlists)) {
     throw new Error('Whoa! that ID is already taken!')
   }
   let newPlaylist = {
@@ -239,7 +246,7 @@ function getPlaylistById(playlistId) {
   throw new Error(`Hmmm.. There's no playlist with that ID`)
 }
 
-function checkIdExistence(id, array) {
+function checkIdExists(id, array) {
   for (let item of array) {
     if (id === item.id) {
       return true
