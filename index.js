@@ -171,18 +171,29 @@ function searchByQuery(query) {
 }
 
 function searchByDuration(duration) {
-  let durationMatch = 1000
+  //function will get duration proximity by subtracting durations. the song/playlist with the smallest duration difference (closest to zero) will be chosen
+  // assign temporary value to the variable that will contain the closest match
+  let durationInSeconds = convertMinutesToSeconds(duration)
+  let currentClosestDuration = Number.MAX_SAFE_INTEGER
+  //
   let match = undefined
-  let formattedDuration = convertMinutesToSeconds(duration)
+  console.log(match)
+
   for (song of player.songs) {
-    if (Math.abs(formattedDuration - song.duration) < durationMatch) {
-      durationMatch = Math.abs(formattedDuration - song.duration)
+    let durationsDifference = Math.abs(durationInSeconds - song.duration)
+    if (durationsDifference < currentClosestDuration) {
+      currentClosestDuration = durationsDifference
       match = song
     }
   }
+  console.log(match)
   for (playlist of player.playlists) {
     let currentPlaylistDuration = playlistDuration(playlist.id)
-    if (Math.abs(formattedDuration - currentPlaylistDuration) < durationMatch) {
+    let durationsDifference = Math.abs(
+      durationInSeconds - currentPlaylistDuration
+    )
+    if (durationsDifference < currentClosestDuration) {
+      currentClosestDuration = durationsDifference
       match = playlist
     }
   }
@@ -208,9 +219,14 @@ function convertSecondsToMinutes(time) {
 
 //convert from mm:ss format to seconds. e.g. 02:40 to 160
 function convertMinutesToSeconds(time) {
-  // TODO: maybe add string check?
+  let mmssRe = new RegExp(/^\d{2,}[:]\d{2}$/)
+  if (!mmssRe.test(time)) {
+    throw new Error('Hopala! time entered has to be in the mm:ss format!')
+  }
+
   let seconds = parseInt(time.slice(time.length - 2, time.length))
   let minutes = parseInt(time.slice(0, time.length - 3))
+
   return seconds + minutes * 60
 }
 
@@ -301,8 +317,6 @@ console.log(player.playlists)
 console.log(editPlaylist(5, 3))
 console.log(player.playlists)
 console.log(playlistDuration(5))
-console.log(searchByDuration('03:07'))
-console.log(convertMinutesToSeconds('03:07'))
 
 //NOTICE
 /*
