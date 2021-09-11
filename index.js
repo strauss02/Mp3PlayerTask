@@ -219,14 +219,15 @@ function convertSecondsToMinutes(time) {
 
 //convert from mm:ss format to seconds. e.g. 02:40 to 160
 function convertMinutesToSeconds(time) {
-  let mmssRe = new RegExp(/^\d{2,}[:]\d{2}$/)
-  if (!mmssRe.test(time)) {
+  //mmssRe matches mm:ss with any amount of minute digits
+  let mmssRe = new RegExp(/(^\d{2,})[:](\d{2}$)/)
+  let matches = time.match(mmssRe)
+  if (!matches) {
     throw new Error('Hopala! time entered has to be in the mm:ss format!')
   }
 
-  let seconds = parseInt(time.slice(time.length - 2, time.length))
-  let minutes = parseInt(time.slice(0, time.length - 3))
-
+  let seconds = parseInt(matches[2])
+  let minutes = parseInt(matches[1])
   return seconds + minutes * 60
 }
 
