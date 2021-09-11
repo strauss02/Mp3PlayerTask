@@ -45,7 +45,12 @@ You are asked to implement the following functions:
 - `removePlaylist` - Gets a playlist ID. Remove the playlist with the given ID from the player (does not delete the songs inside it).
 - `createPlaylist` - Gets a name & ID. Creates a new, empty playlist with the given details. The ID is optional, and if omitted should be automatically generated. Returns the ID of the new playlist.
 - `playPlaylist` - Gets a playlist ID. Plays all songs in the specified playlist, in the order the appear in the playlist.
-- `editPlaylist` - Gets a playlist ID & a song ID. If the song ID exists in the playlist, removes it. If it was the only song in the playlist, also deletes the playlist. If the song ID does not exist in the playlist, adds it to the end of the playlist.
+- `editPlaylist` - Gets a playlist ID & a song ID.
+
+1. If the song ID exists in the playlist, removes it.
+2. If it was the only song in the playlist, also deletes the playlist.
+3. If the song ID does not exist in the playlist, adds it to the end of the playlist.
+
 - `playlistDuration` - Gets a playlist ID. Returns the total duration of the entire playlist with the given ID.
 - `searchByQuery` - Gets a query string. Returns a results object, which has:
 
