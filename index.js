@@ -80,6 +80,7 @@ function addSong(
   duration,
   id = getVacantId(player.songs)
 ) {
+  checkIdIsValid(id)
   if (checkIdExists(id, player.songs)) {
     throw new Error(`Whoops! seems like ID ${id} is already in use`)
   }
@@ -94,6 +95,8 @@ function addSong(
   return newSong.id
 }
 
+console.log(addSong('Axel F', 'Crazy Frog 1', 'Crazy Frog', '02:40', 'banana'))
+
 function removePlaylist(id) {
   let playlist = getPlaylistById(id)
   player.playlists.splice(player.playlists.indexOf(playlist), 1)
@@ -101,7 +104,7 @@ function removePlaylist(id) {
 
 function createPlaylist(name, id) {
   // try {
-  //   checkIfValid(id)
+  //   checkIdIsValid(id)
   // }
   // catch {
   //   if (err === existenceError) {
@@ -228,7 +231,7 @@ function convertMinutesToSeconds(time) {
 }
 
 function getSongById(id) {
-  checkIfValid(id)
+  checkIdIsValid(id)
   for (let song of player.songs) {
     if (song.id === id) {
       return song
@@ -245,7 +248,7 @@ function getSongIndexById(id) {
 }
 
 function getPlaylistById(id) {
-  checkIfValid(id)
+  checkIdIsValid(id)
   for (let playlist of player.playlists) {
     if (playlist.id === id) {
       return playlist
@@ -283,7 +286,7 @@ function sortNameAlphabetically(a, b) {
   return a.name.localeCompare(b.name)
 }
 
-function checkIfValid(id) {
+function checkIdIsValid(id) {
   if (typeof id != 'number') {
     throw new Error('Whoopa! ID should be a number.')
   }
