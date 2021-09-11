@@ -301,9 +301,21 @@ function assertStringNotEmpty(...args) {
 
 //EXTRA FEATURES
 
-//generate song radio playlist
-//shuffle
-//
+//plays a playlist in a random order
+function shufflePlaylist(id) {
+  let shuffledPlaylist = [...getPlaylistById(id).songs]
+  //fisher-yates shuffle loop
+  for (let i = shuffledPlaylist.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    //replace every sequential index (i) with a random index (j)
+    [shuffledPlaylist[i], shuffledPlaylist[j]] = [shuffledPlaylist[j], shuffledPlaylist[i]]
+  }
+  //after shuffling has finished, play the playlist.
+  for (song of shuffledPlaylist) {
+    playSong(song)
+  }
+}
+
 
 module.exports = {
   player,
@@ -317,4 +329,5 @@ module.exports = {
   playlistDuration,
   searchByQuery,
   searchByDuration,
+  shufflePlaylist
 }
