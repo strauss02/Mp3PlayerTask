@@ -101,6 +101,7 @@ function removePlaylist(id) {
 }
 
 function createPlaylist(name, id) {
+  checkIfValid(id)
   if (checkIdExists(id, player.playlists)) {
     throw new Error('Whoa! that ID is already taken!')
   }
@@ -122,10 +123,13 @@ function playPlaylist(id) {
 
 function editPlaylist(playlistId, songId) {
   let playlist = getPlaylistById(playlistId)
+  //if the song exists, and the playlist does not include it, push the songId into the playlist songs array.
   if (getSongById(songId) && !playlist.songs.includes(songId)) {
     playlist.songs.push(songId)
+    //every other case means the song exists and is already in the array. so splice it out of the array.
   } else {
     playlist.songs.splice(playlist.songs.indexOf(songId), 1)
+    //if the playlist is empty after that, also remove it.
     if (playlist.songs.length === 0) {
       removePlaylist(playlistId)
     }
@@ -218,10 +222,7 @@ function convertMinutesToSeconds(time) {
 }
 
 function getSongById(id) {
-  if (typeof id != 'number') {
-    throw new Error('Whoopa! ID should be a number.')
-  }
-
+  checkIfValid(id)
   for (let song of player.songs) {
     if (song.id === id) {
       return song
@@ -237,9 +238,10 @@ function getSongIndexById(id) {
   return player.songs.indexOf(song)
 }
 
-function getPlaylistById(playlistId) {
+function getPlaylistById(id) {
+  checkIfValid(id)
   for (let playlist of player.playlists) {
-    if (playlist.id === playlistId) {
+    if (playlist.id === id) {
       return playlist
     }
   }
@@ -255,7 +257,7 @@ function checkIdExists(id, array) {
   return false
 }
 
-//gets number (i) and goes through all the songs to see if anyone has it. if not, it is considered avaliable.
+//gets number (i) and goes through all the songs / playlists to see if anyone has it. if not, it is considered avaliable.
 function getVacantId(array) {
   mainLoop: for (let i = 1; i <= array.length + 1; i++) {
     for (let item of array) {
@@ -273,6 +275,12 @@ function sortTitlesAlphabetically(a, b) {
 
 function sortNameAlphabetically(a, b) {
   return a.name.localeCompare(b.name)
+}
+
+function checkIfValid(id) {
+  if (typeof id != 'number') {
+    throw new Error('Whoopa! ID should be a number.')
+  }
 }
 
 //EXTRA FRATURES
