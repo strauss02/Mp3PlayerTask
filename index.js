@@ -152,16 +152,16 @@ function playlistDuration(id) {
 }
 
 function searchByQuery(query) {
+  assertStringNotEmpty(query)
   let searchResults = { songs: [], playlists: [] }
   let lowerCasedQuery = query.toLowerCase()
 
   for (let song of player.songs) {
-    if (
-      song.artist.toLowerCase().includes(lowerCasedQuery) ||
-      song.title.toLowerCase().includes(lowerCasedQuery) ||
-      song.album.toLowerCase().includes(lowerCasedQuery)
-    ) {
-      searchResults.songs.push(song)
+    for (songProperty of [song.artist, song.title, song.album]) {
+      if (songProperty.toLowerCase().includes(lowerCasedQuery)) {
+        searchResults.songs.push(song)
+        break
+      }
     }
   }
   for (let playlist of player.playlists) {
@@ -181,7 +181,6 @@ function searchByDuration(duration) {
   let currentClosestDuration = Number.MAX_SAFE_INTEGER
   //
   let match = undefined
-  console.log(match)
 
   for (song of player.songs) {
     let durationsDifference = Math.abs(durationInSeconds - song.duration)
@@ -190,7 +189,6 @@ function searchByDuration(duration) {
       match = song
     }
   }
-  console.log(match)
   for (playlist of player.playlists) {
     let currentPlaylistDuration = playlistDuration(playlist.id)
     let durationsDifference = Math.abs(
@@ -201,7 +199,6 @@ function searchByDuration(duration) {
       match = playlist
     }
   }
-  console.log(match)
   return match
 }
 
