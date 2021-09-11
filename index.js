@@ -119,16 +119,21 @@ function playPlaylist(id) {
 
 function editPlaylist(playlistId, songId) {
   let playlist = getPlaylistById(playlistId)
-  //if the song exists, and the playlist does not include it, push the songId into the playlist songs array.
-  if (getSongById(songId) && !playlist.songs.includes(songId)) {
-    playlist.songs.push(songId)
-    //every other case means the song exists and is already in the array. so splice it out of the array.
-  } else {
+
+  //getSongById throws if song does not exist.
+  getSongById(songId)
+
+  // if the song exists in the playlist, splice it out of it.
+  if (playlist.songs.includes(songId)) {
     playlist.songs.splice(playlist.songs.indexOf(songId), 1)
+
     //if the playlist is empty after that, also remove it.
     if (playlist.songs.length === 0) {
       removePlaylist(playlistId)
     }
+  } else {
+    //if the song does not exist in the playlist, push it to the end of it.
+    playlist.songs.push(songId)
   }
 }
 
