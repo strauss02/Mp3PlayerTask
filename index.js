@@ -80,10 +80,10 @@ function addSong(
   duration,
   id = getVacantId(player.songs)
 ) {
-  // checkIfEmpty(title,album,duration)
+  assertStringNotEmpty(title, album, artist)
 
-  checkIdIsNumber(id)
-  checkIdNotUsed(id, player.songs)
+  assertIdIsNumber(id)
+  assertIdNotUsed(id, player.songs)
   let newSong = {
     id: id,
     title: title,
@@ -101,8 +101,8 @@ function removePlaylist(id) {
 }
 
 function createPlaylist(name, id = getVacantId(player.playlists)) {
-  checkIdIsNumber(id)
-  checkIdNotUsed(id, player.playlists)
+  assertIdIsNumber(id)
+  assertIdNotUsed(id, player.playlists)
   let newPlaylist = {
     id: id,
     name: name,
@@ -234,7 +234,7 @@ function convertMinutesToSeconds(time) {
 }
 
 function getSongById(id) {
-  checkIdIsNumber(id)
+  assertIdIsNumber(id)
   for (let song of player.songs) {
     if (song.id === id) {
       return song
@@ -251,7 +251,7 @@ function getSongIndexById(id) {
 }
 
 function getPlaylistById(id) {
-  checkIdIsNumber(id)
+  assertIdIsNumber(id)
   for (let playlist of player.playlists) {
     if (playlist.id === id) {
       return playlist
@@ -262,7 +262,7 @@ function getPlaylistById(id) {
   )
 }
 
-function checkIdNotUsed(id, array) {
+function assertIdNotUsed(id, array) {
   for (let item of array) {
     if (id === item.id) {
       throw new Error(`Whoops! seems like ID ${id} is already in use`)
@@ -270,21 +270,19 @@ function checkIdNotUsed(id, array) {
   }
 }
 
-function checkIdIsNumber(id) {
+function assertIdIsNumber(id) {
   if (typeof id != 'number') {
     throw new Error('Whoopa! ID should be a number.')
   }
 }
 
-function checkStringNotEmpty(...args) {
+function assertStringNotEmpty(...args) {
   for (arg of args) {
-    console.log(arg)
     if (typeof arg === 'string' && arg.length != 0) {
       continue
     } else throw new Error('Waahh! You must enter a valid string.')
   }
 }
-console.log(checkStringNotEmpty(23, 'banan', 'kaka'))
 
 //gets number (i) and goes through all the songs / playlists to see if anyone has it. if not, it is considered avaliable.
 function getVacantId(array) {
@@ -331,6 +329,7 @@ console.log(player.playlists)
 console.log(editPlaylist(5, 3))
 console.log(player.playlists)
 console.log(playlistDuration(5))
+console.log(addSong('gfdg', 'artist', 'fdfg', '33:43', 8))
 
 //NOTICE
 /*
