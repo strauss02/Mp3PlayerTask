@@ -138,7 +138,6 @@ function editPlaylist(playlistId, songId) {
 }
 
 function playlistDuration(id) {
-  // return total duration of all songs in that playlist. 1.get the playlist 2.get each duration by id 3.return sum
   let playlist = getPlaylistById(id)
   let totalDuration = 0
   for (song of playlist.songs) {
@@ -150,19 +149,19 @@ function playlistDuration(id) {
 
 function searchByQuery(query) {
   let searchResults = { songs: [], playlists: [] }
-  let casedQuery = query.toLowerCase()
+  let lowerCasedQuery = query.toLowerCase()
 
   for (let song of player.songs) {
     if (
-      song.artist.toLowerCase().includes(casedQuery) ||
-      song.title.toLowerCase().includes(casedQuery) ||
-      song.album.toLowerCase().includes(casedQuery)
+      song.artist.toLowerCase().includes(lowerCasedQuery) ||
+      song.title.toLowerCase().includes(lowerCasedQuery) ||
+      song.album.toLowerCase().includes(lowerCasedQuery)
     ) {
       searchResults.songs.push(song)
     }
   }
   for (let playlist of player.playlists) {
-    if (playlist.name.toLowerCase().includes(casedQuery)) {
+    if (playlist.name.toLowerCase().includes(lowerCasedQuery)) {
       searchResults.playlists.push(playlist)
     }
   }
@@ -172,20 +171,13 @@ function searchByQuery(query) {
 }
 
 function searchByDuration(duration) {
-  // gets duration in mm:ss. returns song / playlist with the closest duration
-  //go through all songs. for each song duration, the one closest becomes durationMatch.
-  //go through all playlists. for each playlists, the one closest become durationMatch
   let durationMatch = 1000
   let match = undefined
   let formattedDuration = convertMinutesToSeconds(duration)
-  console.log(formattedDuration)
   for (song of player.songs) {
     if (Math.abs(formattedDuration - song.duration) < durationMatch) {
-      console.log(durationMatch)
       durationMatch = Math.abs(formattedDuration - song.duration)
-      console.log(durationMatch)
       match = song
-      console.log(match)
     }
   }
   for (playlist of player.playlists) {
