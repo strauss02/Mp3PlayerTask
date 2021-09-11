@@ -175,13 +175,11 @@ function searchByQuery(query) {
 }
 
 function searchByDuration(duration) {
-  //function will get duration proximity by subtracting durations. the song/playlist with the smallest duration difference (closest to zero) will be chosen
-  // assign temporary value to the variable that will contain the closest match
+  //function will get duration proximity by subtracting durations. the song/playlist with the smallest duration difference (closest to zero) will be chosen.
   let durationInSeconds = convertMinutesToSeconds(duration)
+  // assign temporary value to the variable that will contain the closest match
   let currentClosestDuration = Number.MAX_SAFE_INTEGER
-  //
-  let match = undefined
-
+  let match = null
   for (song of player.songs) {
     let durationsDifference = Math.abs(durationInSeconds - song.duration)
     if (durationsDifference < currentClosestDuration) {
