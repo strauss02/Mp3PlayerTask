@@ -81,9 +81,9 @@ function addSong(
   id = getVacantId(player.songs)
 ) {
   assertStringNotEmpty(title, album, artist)
-
-  assertIdIsNumber(id)
+  assertIsNumber(id)
   assertIdNotUsed(id, player.songs)
+
   let newSong = {
     id: id,
     title: title,
@@ -101,8 +101,10 @@ function removePlaylist(id) {
 }
 
 function createPlaylist(name, id = getVacantId(player.playlists)) {
-  assertIdIsNumber(id)
+  assertStringNotEmpty(name)
+  assertIsNumber(id)
   assertIdNotUsed(id, player.playlists)
+
   let newPlaylist = {
     id: id,
     name: name,
@@ -207,11 +209,7 @@ function searchByDuration(duration) {
 
 //convert from second to mm:ss format. e.g. 160 to 02:40
 function convertSecondsToMinutes(time) {
-  // if () {
-  //   throw new Error(
-  //     'Invalid argument: time entered is not a number or a string containing a number.'
-  //   )
-  // }
+  assertIsNumber(time)
   let minutes = Math.floor(time / 60)
   let seconds = time - minutes * 60
   let paddedMinutes = minutes.toString().padStart(2, 0)
@@ -234,7 +232,7 @@ function convertMinutesToSeconds(time) {
 }
 
 function getSongById(id) {
-  assertIdIsNumber(id)
+  assertIsNumber(id)
   for (let song of player.songs) {
     if (song.id === id) {
       return song
@@ -251,7 +249,7 @@ function getSongIndexById(id) {
 }
 
 function getPlaylistById(id) {
-  assertIdIsNumber(id)
+  assertIsNumber(id)
   for (let playlist of player.playlists) {
     if (playlist.id === id) {
       return playlist
@@ -260,28 +258,6 @@ function getPlaylistById(id) {
   throw new Error(
     `Hmmm.. There's no playlist with that ID. (playlist ID: ${id})`
   )
-}
-
-function assertIdNotUsed(id, array) {
-  for (let item of array) {
-    if (id === item.id) {
-      throw new Error(`Whoops! seems like ID ${id} is already in use`)
-    }
-  }
-}
-
-function assertIdIsNumber(id) {
-  if (typeof id != 'number') {
-    throw new Error('Whoopa! ID should be a number.')
-  }
-}
-
-function assertStringNotEmpty(...args) {
-  for (arg of args) {
-    if (typeof arg === 'string' && arg.length != 0) {
-      continue
-    } else throw new Error('Waahh! You must enter a valid string.')
-  }
 }
 
 //gets number (i) and goes through all the songs / playlists to see if anyone has it. if not, it is considered avaliable.
@@ -304,39 +280,35 @@ function sortNameAlphabetically(a, b) {
   return a.name.localeCompare(b.name)
 }
 
-//EXTRA FRATURES
+//ASSERT FUNCTIONS
 
-//ERROR OBJECTS
+function assertIdNotUsed(id, array) {
+  for (let item of array) {
+    if (id === item.id) {
+      throw new Error(`Whoops! seems like ID ${id} is already in use`)
+    }
+  }
+}
 
-//TODO: add exception classes for each error and make a standard format
+function assertIsNumber(arg) {
+  if (typeof arg != 'number') {
+    throw new Error(`Whoopa! you entered ${arg}. You need to enter a number.`)
+  }
+}
 
-//TESTING
+function assertStringNotEmpty(...args) {
+  for (arg of args) {
+    if (typeof arg === 'string' && arg.length != 0) {
+      continue
+    } else throw new Error('Waahh! You must enter a valid string.')
+  }
+}
 
-console.log(convertSecondsToMinutes(99))
-console.log(getSongById(4))
-console.log(getSongIndexById(7))
-console.log(convertSecondsToMinutes(160))
-console.log(playSong(2))
-console.log(getVacantId(player.playlists))
-console.log(getPlaylistById(5))
-console.log(createPlaylist('Rock', 9))
-console.log(player.playlists)
-console.log(playPlaylist(1))
-console.log(editPlaylist(9, 5))
-console.log(player.playlists)
-console.log(editPlaylist(9, 5))
-console.log(player.playlists)
-console.log(editPlaylist(5, 3))
-console.log(player.playlists)
-console.log(playlistDuration(5))
-console.log(addSong('gfdg', 'artist', 'fdfg', '33:43', 8))
+//EXTRA FEATURES
 
-//NOTICE
-/*
-    1. what is the policy of handling ID's? can it be 0? can it be negative? requires clarification
-    2. add error if invalid duration format was entered
-
-*/
+//generate song radio playlist
+//shuffle
+//
 
 module.exports = {
   player,
