@@ -48,9 +48,7 @@ const player = {
     { id: 5, name: 'Israeli', songs: [4, 5] },
   ],
   playSong(song) {
-    return `Playing ${song.title} from ${song.album} by ${
-      song.artist
-    } | ${convertSecondsToMinutes(song.duration)}.`
+    return `Playing ${song.title} from ${song.album} by ${song.artist} | ${convertSecondsToMinutes(song.duration)}.`
   },
 }
 
@@ -214,11 +212,11 @@ function convertSecondsToMinutes(time) {
 
 //convert from mm:ss format to seconds. e.g. 02:40 to 160
 function convertMinutesToSeconds(time) {
-  //mmssRe matches mm:ss with any amount of minute digits
+  //mmssRe matches mm:ss and allows more than two minute digits.
   let mmssRe = new RegExp(/(^\d{2,})[:](\d{2}$)/)
   let matches = time.match(mmssRe)
   if (!matches) {
-    throw new Error('Hopala! time entered has to be in the mm:ss format!')
+    throw new Error(`Oy vey! time entered has to be in the mm:ss format! Time entered: ${time}`)
   }
 
   let seconds = parseInt(matches[2])
@@ -234,10 +232,10 @@ function getSongById(id) {
     }
   }
   throw new Error(
-    `Whoops! we couldn't find a song that matches the ID you entered. (song ID: ${id})`
-  )
-}
-
+    `Whoops! we couldn't find a song that matches the ID you entered. Song ID entered: ${id}`
+    )
+  }
+  
 function getSongIndexById(id) {
   let song = getSongById(id)
   return player.songs.indexOf(song)
@@ -251,10 +249,10 @@ function getPlaylistById(id) {
     }
   }
   throw new Error(
-    `Hmmm.. There's no playlist with that ID. (playlist ID: ${id})`
-  )
-}
-
+    `Hmmm.. There's no playlist with that ID. The playlist ID entered: ${id}`
+    )
+  }
+  
 //gets number (i) and goes through all the songs / playlists to see if anyone has it. if not, it is considered avaliable.
 function getVacantId(array) {
   mainLoop: for (let i = 1; i <= array.length + 1; i++) {
@@ -280,14 +278,14 @@ function sortNameAlphabetically(a, b) {
 function assertIdNotUsed(id, array) {
   for (let item of array) {
     if (id === item.id) {
-      throw new Error(`Whoops! seems like ID ${id} is already in use`)
+      throw new Error(`Whoops! seems like that ID is already in use. ID entered: ${id}`)
     }
   }
 }
 
 function assertIsNumber(arg) {
   if (typeof arg != 'number') {
-    throw new Error(`Whoopa! you entered ${arg}. You need to enter a number.`)
+    throw new Error(`Whoopa! looks like you didn't enter a number. you entered: ${arg}`)
   }
 }
 
@@ -295,9 +293,10 @@ function assertStringNotEmpty(...args) {
   for (arg of args) {
     if (typeof arg === 'string' && arg.length != 0) {
       continue
-    } else throw new Error('Waahh! You must enter a valid string.')
+    } else throw new Error(`Waahh! You must enter a valid string. you entered: ${arg}`)
   }
 }
+
 
 //EXTRA FEATURES
 
