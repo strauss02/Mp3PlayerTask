@@ -80,6 +80,8 @@ function addSong(
   duration,
   id = getVacantId(player.songs)
 ) {
+  // checkIfEmpty(title,album,duration)
+
   checkIdIsNumber(id)
   checkIdNotUsed(id, player.songs)
   let newSong = {
@@ -273,6 +275,17 @@ function checkIdIsNumber(id) {
     throw new Error('Whoopa! ID should be a number.')
   }
 }
+
+function checkStringNotEmpty(...args) {
+  for (arg of args) {
+    console.log(arg)
+    if (typeof arg === 'string' && arg.length != 0) {
+      continue
+    } else throw new Error('Waahh! You must enter a valid string.')
+  }
+}
+console.log(checkStringNotEmpty(23, 'banan', 'kaka'))
+
 //gets number (i) and goes through all the songs / playlists to see if anyone has it. if not, it is considered avaliable.
 function getVacantId(array) {
   mainLoop: for (let i = 1; i <= array.length + 1; i++) {
