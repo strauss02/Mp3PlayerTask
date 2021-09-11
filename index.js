@@ -81,9 +81,7 @@ function addSong(
   id = getVacantId(player.songs)
 ) {
   checkIdIsNumber(id)
-  if (checkIdExists(id, player.songs)) {
-    throw new Error(`Whoops! seems like ID ${id} is already in use`)
-  }
+  checkIdNotUsed(id, player.songs)
   let newSong = {
     id: id,
     title: title,
@@ -100,20 +98,11 @@ function removePlaylist(id) {
   player.playlists.splice(player.playlists.indexOf(playlist), 1)
 }
 
-function createPlaylist(name, id) {
-  // try {
-  //   checkIdIsNumber(id)
-  // }
-  // catch {
-  //   if (err === existenceError) {
-  //     let newPlaylistId = getVacantId(player.playlists)
-  //   }
-  // }
-  if (checkIdExists(id, player.playlists)) {
-    throw new Error('Whoa! that ID is already taken!')
-  }
+function createPlaylist(name, id = getVacantId(player.playlists)) {
+  checkIdIsNumber(id)
+  checkIdNotUsed(id, player.playlists)
   let newPlaylist = {
-    id: id ? id : getVacantId(player.playlists),
+    id: id,
     name: name,
     songs: [],
   }
@@ -252,18 +241,24 @@ function getPlaylistById(id) {
       return playlist
     }
   }
-  throw new Error(`Hmmm.. There's no playlist with that ID`)
+  throw new Error(
+    `Hmmm.. There's no playlist with that ID. (playlist ID: ${id})`
+  )
 }
 
-function checkIdExists(id, array) {
+function checkIdNotUsed(id, array) {
   for (let item of array) {
     if (id === item.id) {
-      return true
+      throw new Error(`Whoops! seems like ID ${id} is already in use`)
     }
   }
-  return false
 }
 
+function checkIdIsNumber(id) {
+  if (typeof id != 'number') {
+    throw new Error('Whoopa! ID should be a number.')
+  }
+}
 //gets number (i) and goes through all the songs / playlists to see if anyone has it. if not, it is considered avaliable.
 function getVacantId(array) {
   mainLoop: for (let i = 1; i <= array.length + 1; i++) {
@@ -282,12 +277,6 @@ function sortTitlesAlphabetically(a, b) {
 
 function sortNameAlphabetically(a, b) {
   return a.name.localeCompare(b.name)
-}
-
-function checkIdIsNumber(id) {
-  if (typeof id != 'number') {
-    throw new Error('Whoopa! ID should be a number.')
-  }
 }
 
 //EXTRA FRATURES
