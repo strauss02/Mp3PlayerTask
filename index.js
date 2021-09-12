@@ -114,7 +114,7 @@ function createPlaylist(name, id = getVacantId(player.playlists)) {
 
 function playPlaylist(id) {
   let playlist = getPlaylistById(id)
-  for (song of playlist.songs) {
+  for (let song of playlist.songs) {
     playSong(song)
   }
 }
@@ -142,7 +142,7 @@ function editPlaylist(playlistId, songId) {
 function playlistDuration(id) {
   let playlist = getPlaylistById(id)
   let totalDuration = 0
-  for (song of playlist.songs) {
+  for (let song of playlist.songs) {
     let songDuration = getSongById(song).duration
     totalDuration += songDuration
   }
@@ -155,7 +155,7 @@ function searchByQuery(query) {
   let lowerCasedQuery = query.toLowerCase()
 
   for (let song of player.songs) {
-    for (songProperty of [song.artist, song.title, song.album]) {
+    for (let songProperty of [song.artist, song.title, song.album]) {
       if (songProperty.toLowerCase().includes(lowerCasedQuery)) {
         searchResults.songs.push(song)
         break
@@ -178,14 +178,14 @@ function searchByDuration(duration) {
   // assign temporary value to the variable that will contain the closest match
   let currentClosestDuration = Number.MAX_SAFE_INTEGER
   let match = null
-  for (song of player.songs) {
+  for (let song of player.songs) {
     let durationsDifference = Math.abs(durationInSeconds - song.duration)
     if (durationsDifference < currentClosestDuration) {
       currentClosestDuration = durationsDifference
       match = song
     }
   }
-  for (playlist of player.playlists) {
+  for (let playlist of player.playlists) {
     let currentPlaylistDuration = playlistDuration(playlist.id)
     let durationsDifference = Math.abs(
       durationInSeconds - currentPlaylistDuration
@@ -290,7 +290,7 @@ function assertIsNumber(arg) {
 }
 
 function assertStringNotEmpty(...args) {
-  for (arg of args) {
+  for (let arg of args) {
     if (typeof arg === 'string' && arg.length != 0) {
       continue
     } else throw new Error(`Waahh! You must enter a valid string. you entered: ${arg}`)
@@ -310,7 +310,7 @@ function shufflePlaylist(id) {
     [shuffledPlaylist[i], shuffledPlaylist[j]] = [shuffledPlaylist[j], shuffledPlaylist[i]]
   }
   //after shuffling has finished, play the playlist.
-  for (song of shuffledPlaylist) {
+  for (let song of shuffledPlaylist) {
     playSong(song)
   }
 }
