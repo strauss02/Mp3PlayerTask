@@ -48,13 +48,14 @@ const player = {
     { id: 5, name: 'Israeli', songs: [4, 5] },
   ],
   playSong(song) {
-    return `Playing ${song.title} from ${song.album} by ${song.artist} | ${convertSecondsToMinutes(song.duration)}.`
+    return `Playing ${song.title} from ${song.album} by ${
+      song.artist
+    } | ${convertSecondsToMinutes(song.duration)}.`
   },
 }
 
 function playSong(id) {
-  let song = getSongById(id)
-  console.log(player.playSong(song))
+  console.log(player.playSong(getSongById(id)))
 }
 
 function removeSong(id) {
@@ -216,7 +217,9 @@ function convertMinutesToSeconds(time) {
   let mmssRe = new RegExp(/(^\d{2,})[:](\d{2}$)/)
   let matches = time.match(mmssRe)
   if (!matches) {
-    throw new Error(`Oy vey! time entered has to be in the mm:ss format! Time entered: ${time}`)
+    throw new Error(
+      `Oy vey! time entered has to be in the mm:ss format! Time entered: ${time}`
+    )
   }
 
   let seconds = parseInt(matches[2])
@@ -233,9 +236,9 @@ function getSongById(id) {
   }
   throw new Error(
     `Whoops! we couldn't find a song that matches the ID you entered. Song ID entered: ${id}`
-    )
-  }
-  
+  )
+}
+
 function getSongIndexById(id) {
   let song = getSongById(id)
   return player.songs.indexOf(song)
@@ -250,9 +253,9 @@ function getPlaylistById(id) {
   }
   throw new Error(
     `Hmmm.. There's no playlist with that ID. The playlist ID entered: ${id}`
-    )
-  }
-  
+  )
+}
+
 //gets number (i) and goes through all the songs / playlists to see if anyone has it. if not, it is considered avaliable.
 function getVacantId(array) {
   mainLoop: for (let i = 1; i <= array.length + 1; i++) {
@@ -278,14 +281,18 @@ function sortNameAlphabetically(a, b) {
 function assertIdNotUsed(id, array) {
   for (let item of array) {
     if (id === item.id) {
-      throw new Error(`Whoops! seems like that ID is already in use. ID entered: ${id}`)
+      throw new Error(
+        `Whoops! seems like that ID is already in use. ID entered: ${id}`
+      )
     }
   }
 }
 
 function assertIsNumber(arg) {
   if (typeof arg != 'number') {
-    throw new Error(`Whoopa! looks like you didn't enter a number. you entered: ${arg}`)
+    throw new Error(
+      `Whoopa! looks like you didn't enter a number. you entered: ${arg}`
+    )
   }
 }
 
@@ -293,10 +300,12 @@ function assertStringNotEmpty(...args) {
   for (let arg of args) {
     if (typeof arg === 'string' && arg.length != 0) {
       continue
-    } else throw new Error(`Waahh! You must enter a valid string. you entered: ${arg}`)
+    } else
+      throw new Error(
+        `Waahh! You must enter a valid string. you entered: ${arg}`
+      )
   }
 }
-
 
 //EXTRA FEATURES
 
@@ -305,16 +314,18 @@ function shufflePlaylist(id) {
   let shuffledPlaylist = [...getPlaylistById(id).songs]
   //fisher-yates shuffle loop
   for (let i = shuffledPlaylist.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
+    const j = Math.floor(Math.random() * (i + 1))
     //replace every sequential index (i) with a random index (j)
-    [shuffledPlaylist[i], shuffledPlaylist[j]] = [shuffledPlaylist[j], shuffledPlaylist[i]]
+    ;[shuffledPlaylist[i], shuffledPlaylist[j]] = [
+      shuffledPlaylist[j],
+      shuffledPlaylist[i],
+    ]
   }
   //after shuffling has finished, play the playlist.
   for (let song of shuffledPlaylist) {
     playSong(song)
   }
 }
-
 
 module.exports = {
   player,
@@ -328,5 +339,5 @@ module.exports = {
   playlistDuration,
   searchByQuery,
   searchByDuration,
-  shufflePlaylist
+  shufflePlaylist,
 }
