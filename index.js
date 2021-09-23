@@ -63,13 +63,9 @@ function removeSong(id) {
   player.songs.splice(getSongIndexById(id), 1)
 
   // remove from playlists
-  for (let playlist of player.playlists) {
-    for (let songID of playlist.songs) {
-      if (songID === id) {
-        playlist.songs.splice(playlist.songs.indexOf(id), 1)
-      }
-    }
-  }
+  player.playlists.forEach((playlist) => {
+    playlist.songs = playlist.songs.filter((songId) => songId != id)
+  })
 }
 
 function addSong(
